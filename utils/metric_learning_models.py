@@ -10,7 +10,7 @@ from torch.nn import functional as F
 from torch.cuda.amp import autocast
 from torch.nn import Module
 from tqdm import tqdm
-from torch.nn import MultiheadAttention
+from torch.nn.utils.weight_norm import weight_norm
 
 LOGGER = logging.getLogger(__name__)
     
@@ -21,7 +21,7 @@ class DTI_Metric_Learning(nn.Module):
         """Constructor for the model.
 
         Args:
-            prot_encoder (_type_): Protein sturcture-aware sequence encoder.
+            prot_encoder (_type_): Protein structure-aware sequence encoder.
             drug_encoder (_type_): Drug SFLFIES encoder.
             prot_out_dim (_type_): Dimension of the protein encoder.
             disease_out_dim (_type_): Dimension of the drug encoder.
@@ -33,7 +33,9 @@ class DTI_Metric_Learning(nn.Module):
         self.drug_reg = nn.Linear(disease_out_dim, 512)
         self.prot_reg = nn.Linear(prot_out_dim, 512)
         self.token_fusion = TokenLevelFusion(hidden_dim=512, num_heads=8, args=args)
-        self.bcn_layer = nn.Bilinear(prot_out_dim, disease_out_dim, 512)
+        self.bcn_layer = weight_norm(
+            BANLayer(v_dim=512, q_dim=512, h_dim=1024, h_out=2),
+            name='h_mat', dim=None)
 
     def predict(self, query_toks1, query_toks2):
         """
@@ -114,7 +116,7 @@ class TokenLevelFusion(nn.Module):
         # print("protein_grouped:", protein_grouped.shape)
         # print("mask_prot_grouped:", mask_prot_grouped.shape)
 
-        # Compute queries, keys, values for both protein and drug after grouping
+        # Compute queries, keys, and values for both protein and drug after grouping
         query_prot = self.apply_heads(self.query_p(protein_grouped), self.num_heads, self.head_size)
         key_prot = self.apply_heads(self.key_p(protein_grouped), self.num_heads, self.head_size)
         value_prot = self.apply_heads(self.value_p(protein_grouped), self.num_heads, self.head_size)
