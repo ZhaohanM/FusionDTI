@@ -1,33 +1,11 @@
-# TF-DTI
-TF-DTI utilises a Token-level Fusion module to effectively learn fine-grained information for Drug-Target Interaction Prediction.
-## Framework
-![TF-DTI](image/TF-DTI.png)
-
-## Installation Guide
-Clone this Github repo and set up a new conda environment.
-```
-# create a new conda environment
-$ conda create --name TF-DTI python=3.8
-$ conda activate TF-DTI
-
-# install requried python dependencies
-$ conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
-$ pip install --upgrade transformers
-$ pip install wandb
-
-# clone the source code of TF-DTI
-$ git https://github.com/ZhaohanM/TF-DTI.git
-$ cd TF-DTI
-```
 ## Datasets
+
 All data used in TF-DTI are from public resource: [BindingDB](https://www.bindingdb.org/bind/index.jsp) [1], [BioSNAP](https://github.com/kexinhuang12345/MolTrans) [2] and [Human](https://github.com/lifanchen-simm/transformerCPI) [3]. The dataset can be downloaded from [here](https://github.com/peizhenbai/DrugBAN/tree/main/datasets).
 
-## Run TF-DTI on Our Data to Reproduce Results
+## processed_DTI_Token
 
-For the experiments with TF-DTI, you can directly run the following command. The dataset could either be  `BindingDB`, `Biosnap`, and `Human`. 
-```
-$ python main.py --dataset BindingDB
-``` 
+The joint embedding vectors of the datasets are stored in the `processed_DTI_Token` folder for later-stage MLP training. 
+
 ## How to obtain the structure-aware sequence of protein?
 
 The structure-aware sequence of protein is based on 3D structure file (.cif) using Foldseek from the [AlphafoldDB](https://alphafold.ebi.ac.uk) database.

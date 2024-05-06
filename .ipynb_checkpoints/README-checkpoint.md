@@ -1,7 +1,7 @@
 # TF-DTI
 TF-DTI utilises a Token-level Fusion module to effectively learn fine-grained information for Drug-Target Interaction Prediction.
 ## Framework
-![TF-DTI](image/TF-DTI.jpg)
+![TF-DTI](image/TF-DTI.png)
 
 ## Installation Guide
 Clone this Github repo and set up a new conda environment.
@@ -27,7 +27,6 @@ All data used in TF-DTI are from public resource: [BindingDB](https://www.bindin
 For the experiments with TF-DTI, you can directly run the following command. The dataset could either be  `BindingDB`, `Biosnap`, and `Human`. 
 ```
 $ python main.py --dataset BindingDB
-
 ``` 
 ## How to obtain the structure-aware sequence of protein?
 
@@ -41,12 +40,10 @@ The first step, if you do not have Uniprot IDs, you will need to obtain them fro
 In the second step, the following code is run to get the protein structure file corresponding to the Uniprot ID.
 ```
 $ python get_alphafold.py
-
 ```
 Finally, you can run the following code to retrieve the structure-aware sequence of the protein.
 ```
 $ python generate_stru_seq.py
-
 ```
 ## How to obtain SELFIES of drug?
 
@@ -58,5 +55,4 @@ $ pip install pandarallel
 Run the following code to generate SELFIES based on your SMILES.
 ```
 $ python generate_selfies.py
-
 ```
