@@ -276,7 +276,7 @@ if __name__ == "__main__":
     os.makedirs(best_model_dir)
     args.save_name = best_model_dir
 
-    model = MlPdecoder().to(device)
+    model = MLPdecoder().to(device)
     criterion = nn.BCELoss()
     
     # optimizer = optim.Adam(model.parameters(), lr=1e-4)
