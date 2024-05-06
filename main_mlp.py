@@ -22,7 +22,7 @@ from sklearn.metrics import roc_auc_score, average_precision_score, accuracy_sco
 from sklearn.metrics import precision_recall_curve, f1_score, precision_recall_fscore_support
 from transformers import EsmTokenizer, EsmForMaskedLM, AutoModel, AutoTokenizer
 from utils.process_datasets import DatabaseProcessor
-from utils.metric_learning_models import DTI_Metric_Learning, MlPdecoder
+from utils.metric_learning_models import DTI_Metric_Learning, MLPdecoder
 # import lightgbm as lgb
 
 wandb.init(project="DTI_Prediction_with_Token_Level_Fusion")
@@ -30,7 +30,6 @@ wandb.init(project="DTI_Prediction_with_Token_Level_Fusion")
 
 def parse_config():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f')
     parser.add_argument(
         "--prot_encoder_path",
         type=str,
