@@ -22,7 +22,7 @@ $ cd FusionDTI
 ## Datasets
 All data used in FusionDTI are from public resource: [BindingDB](https://www.bindingdb.org/bind/index.jsp) [1], [BioSNAP](https://github.com/kexinhuang12345/MolTrans) [2] and [Human](https://github.com/lifanchen-simm/transformerCPI) [3]. The dataset can be downloaded from [here](https://github.com/peizhenbai/DrugBAN/tree/main/datasets).
 
-## Run FusionDTI on Our Data to Reproduce Results
+## Run FusionDTI to Reproduce Results
 
 For the experiments with FusionDTI, you can directly run the following command. The dataset could either be  `BindingDB`, `Biosnap`, and `Human`. 
 ```
