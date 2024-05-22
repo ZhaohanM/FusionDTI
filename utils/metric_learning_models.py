@@ -32,8 +32,8 @@ class DTI_Metric_Learning(nn.Module):
         self.drug_encoder = drug_encoder
         self.drug_reg = nn.Linear(disease_out_dim, 512)
         self.prot_reg = nn.Linear(prot_out_dim, 512)
-        self.token_fusion = TokenLevelFusion(hidden_dim=512, num_heads=8, args=args)
-        self.bcn_layer = weight_norm(
+        self.can_layer = TokenLevelFusion(hidden_dim=512, num_heads=8, args=args)
+        self.ban_layer = weight_norm(
             BANLayer(v_dim=512, q_dim=512, h_dim=1024, h_out=2),
             name='h_mat', dim=None)
 
@@ -61,9 +61,12 @@ class DTI_Metric_Learning(nn.Module):
         ).last_hidden_state
         last_hidden_state2 = self.drug_reg(last_hidden_state2)
 
-        # Apply the token-level fusion
-        query_embed = self.token_fusion(
+        # Apply Cross Attention Network (CAN)
+        query_embed = self.can_layer(
             last_hidden_state1, last_hidden_state2, prot_attention_mask, drug_attention_mask)
+        
+        # Apply Bilinear Attention Network (BAN)
+        # query_embed, att_maps = self.ban_layer(last_hidden_state1, last_hidden_state2)
         
         return query_embed
     
