@@ -35,7 +35,7 @@ The structure-aware sequence of protein is based on 3D structure file (.cif) usi
 
 The following three steps are the obtainment process:
 
-The first step, if you do not have Uniprot IDs, you will need to obtain them from the [Uniprot website](https://www.uniprot.org) based on existing amino acid sequences, protein names, etc. Then save them as a comma-delimited text file.
+The first step, if you do not have Uniprot IDs, you will need to obtain them from the [UniProt website](https://www.uniprot.org) based on existing amino acid sequences, protein names, etc. Then save them as a comma-delimited text file.
 
 In the second step, the following code is run to get the protein structure file corresponding to the Uniprot ID.
 ```
