@@ -11,69 +11,121 @@ from torch.cuda.amp import autocast
 from torch.nn import Module
 from tqdm import tqdm
 from torch.nn.utils.weight_norm import weight_norm
+from torch.utils.data import Dataset
 
 LOGGER = logging.getLogger(__name__)
+
+class FusionDTI(nn.Module):
+    def __init__(self, prot_out_dim, disease_out_dim, args):
+        super(FusionDTI, self).__init__()
+        self.fusion = args.fusion
+        self.drug_reg = nn.Linear(disease_out_dim, 512)
+        self.prot_reg = nn.Linear(prot_out_dim, 512)
+
+        if self.fusion == "CAN":
+            self.can_layer = CAN_Layer(hidden_dim=512, num_heads=8, args=args)
+            self.mlp_classifier = MlPdecoder_CAN(input_dim=1024)
+        elif self.fusion == "BAN":
+            self.ban_layer = weight_norm(BANLayer(512, 512, 256, 2), name='h_mat', dim=None)
+            self.mlp_classifier = MlPdecoder_CAN(input_dim=256)
+        elif self.fusion == "Nan":
+            self.mlp_classifier_nan = MlPdecoder_CAN(input_dim=1246)
+
+    def forward(self, prot_embed, drug_embed, prot_mask, drug_mask):
+        if self.fusion == "Nan":
+            prot_embed = prot_embed.mean(1)  # query : [batch_size, hidden]
+            drug_embed = drug_embed.mean(1)  # query : [batch_size, hidden]
+            joint_embed = torch.cat([prot_embed, drug_embed], dim=1)
+            score = self.mlp_classifier_nan(joint_embed)
+        else:
+            prot_embed = self.prot_reg(prot_embed)
+            drug_embed = self.drug_reg(drug_embed)
+
+            if self.fusion == "CAN":
+                joint_embed = self.can_layer(prot_embed, drug_embed, prot_mask, drug_mask)
+            elif self.fusion == "BAN":
+                joint_embed, att = self.ban_layer(prot_embed, drug_embed)
+
+            score = self.mlp_classifier(joint_embed)
+
+        return score
+
+# class FusionDTI(nn.Module):
+#     def __init__(self, prot_out_dim, disease_out_dim, args):
+#         super(FusionDTI, self).__init__()
+#         """Constructor for the model.
+
+#         Args:
+#             prot_out_dim (_type_): Dimension of the protein encoder.
+#             disease_out_dim (_type_): Dimension of the drug encoder.
+#             args (_type_): _description_
+#         """
+        
+#         self.fusion = args.fusion
+#         self.drug_reg = nn.Linear(disease_out_dim, 512)
+#         self.prot_reg = nn.Linear(prot_out_dim, 512)
+        
+#         if self.fusion == "CAN":
+#             self.can_layer = CAN_Layer(hidden_dim=512, num_heads=8, args=args)
+#             self.mlp_classifier = MlPdecoder_CAN(input_dim=1024)
+#         elif self.fusion == "BAN":
+#             self.ban_layer = weight_norm(BANLayer(512, 512, 256, 2), name='h_mat', dim=None)
+#             self.mlp_classifier = MlPdecoder_CAN(input_dim=256)
+#             # self.mlp_classifier = MLPdecoder_BAN(in_dim=256, hidden_dim=512, out_dim=128)
+
+#     def forward(self, prot_embed, drug_embed, prot_mask, drug_mask):
+#         prot_embed = self.prot_reg(prot_embed)
+#         drug_embed = self.drug_reg(drug_embed)
+        
+#         if self.fusion == "CAN":
+#             joint_embed = self.can_layer(prot_embed, drug_embed, prot_mask, drug_mask)
+#         elif self.fusion == "BAN":
+#             joint_embed, att = self.ban_layer(prot_embed, drug_embed)
+        
+#         score = self.mlp_classifier(joint_embed)
+#         return score
     
-class DTI_Metric_Learning(nn.Module):
+#     def count_parameters(self):
+#         """Counts the number of trainable parameters for the active fusion module."""
+#         if self.fusion == "CAN":
+#             return sum(p.numel() for p in self.can_layer.parameters() if p.requires_grad)
+#         elif self.fusion == "BAN":
+#             return sum(p.numel() for p in self.ban_layer.parameters() if p.requires_grad)
+#         else:
+#             raise ValueError("Unsupported fusion type")
+    
+class Pre_encoded(nn.Module):
     def __init__(
-            self, prot_encoder, drug_encoder, prot_out_dim, disease_out_dim, args
+            self, prot_encoder, drug_encoder, args
     ):
         """Constructor for the model.
 
         Args:
-            prot_encoder (_type_): Protein structure-aware sequence encoder.
+            prot_encoder (_type_): Protein sturcture-aware sequence encoder.
             drug_encoder (_type_): Drug SFLFIES encoder.
-            prot_out_dim (_type_): Dimension of the protein encoder.
-            disease_out_dim (_type_): Dimension of the drug encoder.
             args (_type_): _description_
         """
-        super(DTI_Metric_Learning, self).__init__()
+        super(Pre_encoded, self).__init__()
         self.prot_encoder = prot_encoder
         self.drug_encoder = drug_encoder
-        self.drug_reg = nn.Linear(disease_out_dim, 512)
-        self.prot_reg = nn.Linear(prot_out_dim, 512)
-        self.can_layer = TokenLevelFusion(hidden_dim=512, num_heads=8, args=args)
-        self.ban_layer = weight_norm(
-            BANLayer(v_dim=512, q_dim=512, h_dim=1024, h_out=2),
-            name='h_mat', dim=None)
-
-    def predict(self, query_toks1, query_toks2):
-        """
-        query : (N, h), candidates : (N, topk, h)
-        output : (N, topk)
-        """
-        # Extract input_ids and attention_mask for protein
-        prot_input_ids = query_toks1["input_ids"]
-        prot_attention_mask = query_toks1["attention_mask"]
-
-        # Extract input_ids and attention_mask for drug
-        drug_input_ids = query_toks2["input_ids"]
-        drug_attention_mask = query_toks2["attention_mask"]
-
+        
+    def encoding(self, prot_input_ids, prot_attention_mask, drug_input_ids, drug_attention_mask):
         # Process inputs through encoders
-        last_hidden_state1 = self.prot_encoder(
+        prot_embed = self.prot_encoder(
             input_ids=prot_input_ids, attention_mask=prot_attention_mask, return_dict=True
         ).logits
-        last_hidden_state1 = self.prot_reg(last_hidden_state1)
+        # prot_embed = self.prot_reg(prot_embed)
 
-        last_hidden_state2 = self.drug_encoder(
+        drug_embed = self.drug_encoder(
             input_ids=drug_input_ids, attention_mask=drug_attention_mask, return_dict=True
         ).last_hidden_state
-        last_hidden_state2 = self.drug_reg(last_hidden_state2)
-
-        # Apply Cross Attention Network (CAN)
-        query_embed = self.can_layer(
-            last_hidden_state1, last_hidden_state2, prot_attention_mask, drug_attention_mask)
         
-        # Apply Bilinear Attention Network (BAN)
-        # query_embed, att_maps = self.ban_layer(last_hidden_state1, last_hidden_state2)
-        
-        return query_embed
+        return prot_embed, drug_embed
     
     
-class TokenLevelFusion(nn.Module):
+class CAN_Layer(nn.Module):
     def __init__(self, hidden_dim, num_heads, args):
-        super(TokenLevelFusion, self).__init__()
+        super(CAN_Layer, self).__init__()
         self.agg_mode = args.agg_mode
         self.group_size = args.group_size  #  Control Fusion Scale
         self.hidden_dim = hidden_dim
@@ -119,7 +171,7 @@ class TokenLevelFusion(nn.Module):
         # print("protein_grouped:", protein_grouped.shape)
         # print("mask_prot_grouped:", mask_prot_grouped.shape)
 
-        # Compute queries, keys, and values for both protein and drug after grouping
+        # Compute queries, keys, values for both protein and drug after grouping
         query_prot = self.apply_heads(self.query_p(protein_grouped), self.num_heads, self.head_size)
         key_prot = self.apply_heads(self.key_p(protein_grouped), self.num_heads, self.head_size)
         value_prot = self.apply_heads(self.value_p(protein_grouped), self.num_heads, self.head_size)
@@ -167,23 +219,42 @@ class TokenLevelFusion(nn.Module):
         # print("query_embed:", query_embed.shape)
         return query_embed   
 
-class MlPdecoder(nn.Module):
-    def __init__(self):
-        super(MlPdecoder, self).__init__()
-        self.fc1 = nn.Linear(1024, 1024)
-        self.bn1 = nn.BatchNorm1d(1024)
-        self.fc2 = nn.Linear(1024, 512)
-        self.bn2 = nn.BatchNorm1d(512)
-        self.fc3 = nn.Linear(512, 256)
-        self.bn3 = nn.BatchNorm1d(256)
-        self.output = nn.Linear(256, 1)
+class MlPdecoder_CAN(nn.Module):
+    def __init__(self, input_dim):
+        super(MlPdecoder_CAN, self).__init__()
+        self.fc1 = nn.Linear(input_dim, input_dim)
+        self.bn1 = nn.BatchNorm1d(input_dim)
+        self.fc2 = nn.Linear(input_dim, input_dim // 2)
+        self.bn2 = nn.BatchNorm1d(input_dim // 2)
+        self.fc3 = nn.Linear(input_dim // 2, input_dim // 4)
+        self.bn3 = nn.BatchNorm1d(input_dim // 4)
+        self.output = nn.Linear(input_dim // 4, 1)
 
     def forward(self, x):
         x = self.bn1(torch.relu(self.fc1(x)))
         x = self.bn2(torch.relu(self.fc2(x)))
         x = self.bn3(torch.relu(self.fc3(x)))
         x = torch.sigmoid(self.output(x))
-        return x  
+        return x
+    
+class MLPdecoder_BAN(nn.Module):
+    def __init__(self, in_dim, hidden_dim, out_dim, binary=1):
+        super(MLPdecoder_BAN, self).__init__()
+        self.fc1 = nn.Linear(in_dim, hidden_dim)
+        self.bn1 = nn.BatchNorm1d(hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.bn2 = nn.BatchNorm1d(hidden_dim)
+        self.fc3 = nn.Linear(hidden_dim, out_dim)
+        self.bn3 = nn.BatchNorm1d(out_dim)
+        self.fc4 = nn.Linear(out_dim, binary)
+
+    def forward(self, x):
+        x = self.bn1(F.relu(self.fc1(x)))
+        x = self.bn2(F.relu(self.fc2(x)))
+        x = self.bn3(F.relu(self.fc3(x)))
+        # x = self.fc4(x)
+        x = torch.sigmoid(self.fc4(x)) 
+        return x
 
 class BANLayer(nn.Module):
     """ Bilinear attention network
@@ -223,6 +294,8 @@ class BANLayer(nn.Module):
     def forward(self, v, q, softmax=False):
         v_num = v.size(1)
         q_num = q.size(1)
+        # print("v_num", v_num)
+        # print("v_num ", v_num)
         if self.h_out <= self.c:
             v_ = self.v_net(v)
             q_ = self.q_net(q)
@@ -276,3 +349,15 @@ class FCNet(nn.Module):
 
     def forward(self, x):
         return self.main(x)
+    
+class BatchFileDataset(Dataset):
+    def __init__(self, file_list):
+        self.file_list = file_list
+
+    def __len__(self):
+        return len(self.file_list)
+
+    def __getitem__(self, idx):
+        batch_file = self.file_list[idx]
+        data = torch.load(batch_file)
+        return data['prot'], data['drug'], data['prot_mask'], data['drug_mask'], data['y']

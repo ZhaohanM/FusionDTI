@@ -22,12 +22,20 @@ $ cd FusionDTI
 ## Datasets
 All data used in FusionDTI are from public resource: [BindingDB](https://www.bindingdb.org/bind/index.jsp) [1], [BioSNAP](https://github.com/kexinhuang12345/MolTrans) [2] and [Human](https://github.com/lifanchen-simm/transformerCPI) [3]. The dataset can be downloaded from [here](https://github.com/peizhenbai/DrugBAN/tree/main/datasets).
 
-## Run FusionDTI to Reproduce Results
+## Train
 
 For the experiments with FusionDTI, you can directly run the following command. The dataset could either be  `BindingDB`, `Biosnap`, and `Human`. 
 ```
-$ python main.py --dataset BindingDB
+$ python main_token.py --dataset BindingDB
 ``` 
+## Inference
+
+After training the FusionDTI model, the best saved model is used to inference a single drug and target pair. In [visualize_attention.ipynb](visualize_attention.ipynb), we provide the function of entering protein and drug sequences to visualise attention weights.
+
+```
+$ python attention.py --dataset BindingDB
+``` 
+
 ## How to obtain the structure-aware sequence of protein?
 
 The structure-aware sequence of protein is based on 3D structure file (.cif) using Foldseek from the [AlphafoldDB](https://alphafold.ebi.ac.uk) database.
