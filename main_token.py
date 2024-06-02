@@ -25,7 +25,6 @@ from sklearn.metrics import precision_recall_curve, f1_score, precision_recall_f
 from transformers import EsmForMaskedLM, AutoModel, EsmTokenizer, AutoTokenizer
 from utils.process_datasets import DatabaseProcessor
 from utils.metric_learning_models import BatchFileDataset, Pre_encoded, FusionDTI
-from utils.drug_tokenizer import DrugTokenizer
 # from bertviz import head_view
 # import lightgbm as lgb
 
@@ -139,10 +138,10 @@ def encode_pretrained_feature(args):
         # prot_tokenizer = BertTokenizer.from_pretrained(args.prot_encoder_path, do_lower_case=False)
         prot_tokenizer = EsmTokenizer.from_pretrained(args.prot_encoder_path)
         print("prot_tokenizer", len(prot_tokenizer))
+
         # drug_tokenizer = AutoTokenizer.from_pretrained(args.drug_encoder_path, trust_remote_code=True)
-        # drug_tokenizer = AutoTokenizer.from_pretrained(args.drug_encoder_path)
-        drug_tokenizer = DrugTokenizer()
-        print("drug_tokenizer", len(drug_tokenizer.vocab))
+        drug_tokenizer = AutoTokenizer.from_pretrained(args.drug_encoder_path)
+        print("drug_tokenizer", len(drug_tokenizer))
 
         prot_model = EsmForMaskedLM.from_pretrained(args.prot_encoder_path)
         # drug_model = AutoModel.from_pretrained(args.drug_encoder_path, deterministic_eval=True, trust_remote_code=True)
