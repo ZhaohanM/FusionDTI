@@ -75,11 +75,11 @@ $ python generate_selfies.py
 ## Citation
 Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
 ```
-@inproceedings{zhaohan2024fusiondti,
-  title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
-  author={Meng, Zhaohan and Meng, Zaiqiao and Ounis, Iadh},
-  booktitle={ICML 2024 AI for Science Workshop},
-  year={2024},
-  url={https://openreview.net/forum?id=SRdvBPDdXB}
+@inproceedings{meng2024fusiondti,
+title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
+author={Zhaohan Meng and Zaiqiao Meng and Iadh Ounis},
+booktitle={ICML 2024 AI for Science Workshop},
+year={2024},
+url={https://openreview.net/forum?id=SRdvBPDdXB}
 }
 ```
