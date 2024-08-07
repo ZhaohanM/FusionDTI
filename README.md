@@ -1,5 +1,13 @@
 # FusionDTI
 FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained information for Drug-Target Interaction Prediction.
+
+<div align="left">
+
+[![Paper](https://img.shields.io/badge/arXiv-2406.01651-B31B1B.svg)](https://arxiv.org/abs/2406.01651)
+[![Demo](https://img.shields.io/badge/Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/Gla-AI4BioMed-Lab/FusionDTI)
+
+</div>
+
 ## Framework
 ![FusionDTI](image/TF-DTI.png)
 
@@ -63,4 +71,15 @@ $ pip install pandarallel
 Run the following code to generate SELFIES based on your SMILES.
 ```
 $ python generate_selfies.py
+```
+## Citation
+Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
+```
+@inproceedings{zhaohan2024fusiondti,
+  title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
+  author={Meng, Zhaohan and Meng, Zaiqiao and Ounis, Iadh},
+  booktitle={ICML 2024 AI for Science Workshop},
+  year={2024},
+  url={https://openreview.net/forum?id=SRdvBPDdXB}
+}
 ```
