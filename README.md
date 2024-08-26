@@ -3,6 +3,7 @@ FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained
 
 <div align="left">
 
+[![Website](https://img.shields.io/badge/FusionDTI-Website-blue)](https://zhaohanm.github.io/FusionDTI.github.io/)
 [![Paper](https://img.shields.io/badge/arXiv-2406.01651-B31B1B.svg)](https://arxiv.org/abs/2406.01651)
 [![Demo](https://img.shields.io/badge/Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/Gla-AI4BioMed-Lab/FusionDTI)
 
