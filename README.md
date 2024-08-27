@@ -1,5 +1,4 @@
 # FusionDTI
-FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained information for Drug-Target Interaction Prediction.
 
 <div align="left">
 
@@ -8,6 +7,8 @@ FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained
 [![Demo](https://img.shields.io/badge/Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/Gla-AI4BioMed-Lab/FusionDTI)
 
 </div>
+
+FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained information for Drug-Target Interaction Prediction.
 
 ## Framework
 ![FusionDTI](image/TF-DTI.png)
