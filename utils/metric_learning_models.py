@@ -16,10 +16,10 @@ from torch.utils.data import Dataset
 LOGGER = logging.getLogger(__name__)
 
 class FusionDTI(nn.Module):
-    def __init__(self, prot_out_dim, disease_out_dim, args):
+    def __init__(self, prot_out_dim, drug_out_dim, args):
         super(FusionDTI, self).__init__()
         self.fusion = args.fusion
-        self.drug_reg = nn.Linear(disease_out_dim, 512)
+        self.drug_reg = nn.Linear(drug_out_dim, 512)
         self.prot_reg = nn.Linear(prot_out_dim, 512)
 
         if self.fusion == "CAN":
