@@ -22,7 +22,7 @@ $ conda activate FusionDTI
 
 # install requried python dependencies
 $ conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
-$ pip install --upgrade transformers
+$ pip install transformers
 $ pip install wandb
 
 # clone the source code of FusionDTI
@@ -53,13 +53,13 @@ The structure-aware sequence of protein is based on 3D structure file (.cif) usi
 
 The following three steps are the obtainment process:
 
-The first step, if you do not have Uniprot IDs, you will need to obtain them from the [UniProt website](https://www.uniprot.org) based on existing amino acid sequences, protein names, etc. Then save them as a comma-delimited text file.
+The first step, if you do not have protein structure files, you will need to obtain them from the [AlphafoldDB](https://alphafold.ebi.ac.uk) database via the UniProt IDs on the [UniProt website](https://www.uniprot.org). The UniProt IDs are then saved as a comma-delimited text file.
 
-In the second step, the following code is run to get the protein structure file corresponding to the Uniprot ID.
+In the second step, run the following code to obtain the protein structure files corresponding to the UniProt IDs.
 ```
 $ python get_alphafold.py
 ```
-Finally, you can run the following code to retrieve the structure-aware sequence of the protein.
+Finally, the structure-aware protein sequences are obtained when running the following code.
 ```
 $ python generate_stru_seq.py
 ```
@@ -79,7 +79,7 @@ Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work u
 ```
 @inproceedings{meng2024fusiondti,
 title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
-author={Zhaohan Meng and Zaiqiao Meng and Iadh Ounis},
+author={Zhaohan Meng, Zaiqiao Meng, Ke Yuan and Iadh Ounis},
 booktitle={ICML 2024 AI for Science Workshop},
 year={2024},
 url={https://openreview.net/forum?id=SRdvBPDdXB}
