@@ -14,6 +14,7 @@ FusionDTI utilises a Token-level Fusion module to effectively learn fine-grained
 ![FusionDTI](image/TF-DTI.png)
 
 ## Installation Guide
+
 Clone this Github repo and set up a new conda environment.
 ```
 # create a new conda environment
@@ -30,6 +31,7 @@ $ git https://github.com/ZhaohanM/FusionDTI.git
 $ cd FusionDTI
 ```
 ## Datasets
+
 All data used in FusionDTI are from public resource: [BindingDB](https://www.bindingdb.org/bind/index.jsp) [1], [BioSNAP](https://github.com/kexinhuang12345/MolTrans) [2] and [Human](https://github.com/lifanchen-simm/transformerCPI) [3]. The dataset can be downloaded from [here](https://github.com/peizhenbai/DrugBAN/tree/main/datasets).
 
 ## Train
@@ -53,19 +55,19 @@ The structure-aware sequence of protein is based on 3D structure file (.cif) usi
 
 The following three steps are the obtainment process:
 
-The first step, if you do not have protein structure files, you will need to obtain them from the [AlphafoldDB](https://alphafold.ebi.ac.uk) database via the UniProt IDs on the [UniProt website](https://www.uniprot.org). The UniProt IDs are then saved as a comma-delimited text file.
+Step 1: If you do not have protein structure files, you will need to obtain them from the [AlphafoldDB](https://alphafold.ebi.ac.uk) database via the UniProt IDs on the [UniProt website](https://www.uniprot.org). The UniProt IDs are then saved as a comma-delimited text file.
 
-In the second step, run the following code to obtain the protein structure files corresponding to the UniProt IDs.
+Step 2: Retrieve protein structure files from AlphafoldDB through corresponding UniProt IDs.
 ```
 $ python get_alphafold.py
 ```
-Finally, the structure-aware protein sequences are obtained when running the following code.
+Step 3: The structure-aware protein sequences are obtained with 3D structure files (cif).
 ```
 $ python generate_stru_seq.py
 ```
 ## How to obtain SELFIES of drug?
 
-You need to install the python packages that convert the drug SMILES strings into SELFIES strings.
+Install the Python package that converts SMILES strings to SELFIES strings.
 ```
 $ pip install selfies 
 $ pip install pandarallel
@@ -75,6 +77,7 @@ Run the following code to generate SELFIES based on your SMILES.
 $ python generate_selfies.py
 ```
 ## Citation
+
 Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
 ```
 @inproceedings{meng2024fusiondti,
