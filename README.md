@@ -76,6 +76,11 @@ Run the following code to generate SELFIES based on your SMILES.
 ```
 $ python generate_selfies.py
 ```
+
+## Results
+
+![FusionDTI](image/results.png)
+
 ## Citation
 
 Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
