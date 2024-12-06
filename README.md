@@ -8,6 +8,8 @@
 
 </div>
 
+## Introduction
+
 FusionDTI utilises a **Token-level Fusion module** to effectively learn fine-grained information for Drug-Target Interaction Prediction. In particular, our proposed model uses the **SELFIES** representation of drugs to mitigate sequence fragment invalidation and incorporates the **structure-aware (SA)** vocabulary of target proteins to address the limitation of amino acid sequences in structural information, additionally leveraging **pre-trained language models (PLMs)** extensively trained on large-scale biomedical datasets as encoders to capture the complex information of drugs and targets.
 
 ## Framework
