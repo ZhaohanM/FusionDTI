@@ -67,18 +67,18 @@ class Pre_encoded(nn.Module):
         self.drug_encoder = drug_encoder
         
     def encoding(self, prot_input_ids, prot_attention_mask, drug_input_ids, drug_attention_mask):
-        # Process inputs through encoders
+        # Process protein encoder with hidden state output
         prot_embed = self.prot_encoder(
-            input_ids=prot_input_ids, attention_mask=prot_attention_mask, return_dict=True
-        ).logits
-        # prot_embed = self.prot_reg(prot_embed)
+            input_ids=prot_input_ids, 
+            attention_mask=prot_attention_mask, 
+            output_hidden_states=True,  # Request hidden states
+            return_dict=True
+        ).hidden_states[-1]
 
         drug_embed = self.drug_encoder(
             input_ids=drug_input_ids, attention_mask=drug_attention_mask, return_dict=True
-        ).last_hidden_state  # .last_hidden_state
-        
-        # print("drug_embed", drug_embed.shape)
-        
+        ).last_hidden_state
+
         return prot_embed, drug_embed
     
     
