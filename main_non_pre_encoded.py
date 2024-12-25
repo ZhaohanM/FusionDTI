@@ -222,7 +222,7 @@ if __name__ == "__main__":
     # drug_model = AutoModel.from_pretrained(args.drug_encoder_path, deterministic_eval=True, trust_remote_code=True)
     drug_encoder = AutoModel.from_pretrained(args.drug_encoder_path).to(args.device)
 
-    model = FusionDTI(prot_encoder, drug_encoder, 446, 768, args).to(device)
+    model = FusionDTI(prot_encoder, drug_encoder, 1280, 768, args).to(device)
     criterion = nn.BCELoss()
 
     optimizer = optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
