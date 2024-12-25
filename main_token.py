@@ -297,7 +297,7 @@ if __name__ == "__main__":
     os.makedirs(best_model_dir, exist_ok=True)
     args.save_name = best_model_dir
 
-    model = FusionDTI(446, 768, args).to(device)
+    model = FusionDTI(1280, 768, args).to(device)
     criterion = nn.BCELoss()
 
     optimizer = optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
