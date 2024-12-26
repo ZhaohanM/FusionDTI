@@ -16,20 +16,20 @@ from torch.utils.data import Dataset
 LOGGER = logging.getLogger(__name__)
 
 class FusionDTI(nn.Module):
-    def __init__(self, prot_out_dim, drug_out_dim, args):
+    def __init__(self, prot_out_dim, disease_out_dim, args):
         super(FusionDTI, self).__init__()
         self.fusion = args.fusion
-        self.drug_reg = nn.Linear(drug_out_dim, 512)
-        self.prot_reg = nn.Linear(prot_out_dim, 512)
+        self.drug_reg = nn.Linear(disease_out_dim, 768)
+        self.prot_reg = nn.Linear(prot_out_dim, 768)
 
         if self.fusion == "CAN":
-            self.can_layer = CAN_Layer(hidden_dim=512, num_heads=8, args=args)
-            self.mlp_classifier = MlPdecoder_CAN(input_dim=1024)
+            self.can_layer = CAN_Layer(hidden_dim=768, num_heads=8, args=args)
+            self.mlp_classifier = MlPdecoder_CAN(input_dim=1536)
         elif self.fusion == "BAN":
-            self.ban_layer = weight_norm(BANLayer(512, 512, 256, 2), name='h_mat', dim=None)
-            self.mlp_classifier = MlPdecoder_CAN(input_dim=256)
+            self.ban_layer = weight_norm(BANLayer(768, 768, 256, 2), name='h_mat', dim=None)
+            self.mlp_classifier = MlPdecoder_CAN(input_dim=512)
         elif self.fusion == "Nan":
-            self.mlp_classifier_nan = MlPdecoder_CAN(input_dim=1214)
+            self.mlp_classifier_nan = MlPdecoder_CAN(input_dim=1536)
 
     def forward(self, prot_embed, drug_embed, prot_mask, drug_mask):
         # print("drug_embed", drug_embed.shape)
