@@ -8,14 +8,14 @@
 
 </div>
 
-## Introduction
+## 🚀 Introduction
 
 FusionDTI utilises a **Token-level Fusion module** to effectively learn fine-grained information for Drug-Target Interaction Prediction. In particular, our proposed model uses the **SELFIES** representation of drugs to mitigate sequence fragment invalidation and incorporates the **structure-aware (SA)** vocabulary of target proteins to address the limitation of amino acid sequences in structural information, additionally leveraging **pre-trained language models (PLMs)** extensively trained on large-scale biomedical datasets as encoders to capture the complex information of drugs and targets.
 
-## Framework
+## 🧩 Framework
 ![FusionDTI](image/TF-DTI.png)
 
-## Installation Guide
+## ⚙️ Installation Guide
 
 Clone this Github repo and set up a new conda environment.
 ```
@@ -32,17 +32,17 @@ $ pip install wandb
 $ git https://github.com/ZhaohanM/FusionDTI.git
 $ cd FusionDTI
 ```
-## Datasets
+## 📂 Datasets
 
 All data used in FusionDTI are from public resource: [BindingDB](https://www.bindingdb.org/bind/index.jsp) [1], [BioSNAP](https://github.com/kexinhuang12345/MolTrans) [2] and [Human](https://github.com/lifanchen-simm/transformerCPI) [3]. The dataset can be downloaded from [here](https://github.com/peizhenbai/DrugBAN/tree/main/datasets).
 
-## Train
+## 🏋️‍♀️ Training
 
 For the experiments with FusionDTI, you can directly run the following command. The dataset could either be  `BindingDB`, `Biosnap`, and `Human`. 
 ```
 $ python main_token.py --dataset BindingDB
 ``` 
-## Inference
+## 🔍 Inference
 
 After training the FusionDTI model, the best saved model is used to inference a single drug and target pair. In [visualize_attention.ipynb](visualize_attention.ipynb), we provide the function of entering protein and drug sequences to visualise attention weights.
 
@@ -78,12 +78,31 @@ Run the following code to generate SELFIES based on your SMILES.
 ```
 $ python generate_selfies.py
 ```
+## 🔬 Pretrained Language Models
 
-## Results
+### 🧬 Protein Language Models
+
+| Model Name | HuggingFace Link | Input Type |
+|------------|------------------|-------------|
+| ESM2 | [facebook/esm2_t33_650M_UR50D](https://huggingface.co/facebook/esm2_t33_650M_UR50D) | Amino Acid Sequence |
+| SAPROT | [westlake-repl/SaProt_650M_AF2](https://huggingface.co/westlake-repl/SaProt_650M_AF2) | Structure-aware Sequence |
+| SAPROT | [westlake-repl/SaProt_650M_PDB](https://huggingface.co/westlake-repl/SaProt_650M_PDB) | Structure-aware sequence |
+
+### 💊 Molecular Language Models
+
+| Model Name | HuggingFace Link | Input Type |
+|------------|------------------|-------------|
+| MoLFormer-XL | [ibm-research/MoLFormer-XL-both-10pct](https://huggingface.co/ibm-research/MoLFormer-XL-both-10pct) | SMILES |
+| SELFormer | [HUBioDataLab/SELFormer](https://huggingface.co/HUBioDataLab/SELFormer) | SELFIES |
+| SELFIES-TED | [ibm-research/materials.selfies-ted](https://huggingface.co/ibm-research/materials.selfies-ted) | SELFIES |
+
+
+
+## 📈 Results
 
 ![FusionDTI](image/results.png)
 
-## Citation
+## 📖 Citation
 
 Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
 ```
