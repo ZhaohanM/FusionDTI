@@ -8,6 +8,11 @@
 
 </div>
 
+## 🔥 Latest News
+
+- An extension for **explainable prediction of drug-target interaction types**, along with the model and dataset, will be released soon!
+- **August 2025**: FusionDTI has been **accepted to EMNLP 2025** 🎉
+
 ## 🚀 Introduction
 
 FusionDTI utilises a **Token-level Fusion module** to effectively learn fine-grained information for Drug-Target Interaction Prediction. In particular, our proposed model uses the **SELFIES** representation of drugs to mitigate sequence fragment invalidation and incorporates the **structure-aware (SA)** vocabulary of target proteins to address the limitation of amino acid sequences in structural information, additionally leveraging **pre-trained language models (PLMs)** extensively trained on large-scale biomedical datasets as encoders to capture the complex information of drugs and targets.
@@ -109,7 +114,7 @@ Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work u
 @inproceedings{meng2024fusiondti,
 title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
 author={Zhaohan Meng, Zaiqiao Meng, Ke Yuan and Iadh Ounis},
-booktitle={ICML 2024 AI for Science Workshop},
+booktitle={EMNLP 2025},
 year={2024},
 url={https://openreview.net/forum?id=SRdvBPDdXB}
 }
