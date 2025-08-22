@@ -115,7 +115,7 @@ Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work u
 title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
 author={Zhaohan Meng, Zaiqiao Meng, Ke Yuan and Iadh Ounis},
 booktitle={EMNLP 2025},
-year={2024},
-url={https://openreview.net/forum?id=SRdvBPDdXB}
+year={2025},
+url={https://arxiv.org/abs/2406.01651}
 }
 ```
