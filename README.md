@@ -17,7 +17,17 @@
 
 FusionDTI utilises a **Token-level Fusion module** to effectively learn fine-grained information for Drug-Target Interaction Prediction. In particular, our proposed model uses the **SELFIES** representation of drugs to mitigate sequence fragment invalidation and incorporates the **structure-aware (SA)** vocabulary of target proteins to address the limitation of amino acid sequences in structural information, additionally leveraging **pre-trained language models (PLMs)** extensively trained on large-scale biomedical datasets as encoders to capture the complex information of drugs and targets.
 
-## 🧩 Framework
+### 🧩 Input Flexibility
+
+FusionDTI supports multiple molecular input formats, allowing users to adapt the framework to different datasets and resources:
+
+- **Drug inputs:** either **SMILES** or **SELFIES** representations.  
+- **Protein inputs:** either **Amino Acid sequences** or **Structure-Aware (SA) sequences** derived from 3D structures via *FoldSeek*.  
+- **Encoder switching:** choose corresponding encoders listed in the [Foundation Models](#-foundation-models) section. 
+- **Recommended setting:** for best performance, use **SELFIES (SELFormer)** for ligands and **SA sequences (SaProt)** for proteins.  
+- **Sequence-only alternative:** if protein structures are unavailable, the **SELFIES + amino acid sequence** model offers comparable performance with minimal accuracy loss.
+
+## 🟣 Framework
 ![FusionDTI](image/TF-DTI.png)
 
 ## ⚙️ Installation Guide
@@ -83,9 +93,9 @@ Run the following code to generate SELFIES based on your SMILES.
 ```
 $ python generate_selfies.py
 ```
-## 🔬 Pretrained Language Models
+## 🔬 Foundation Models
 
-### 🧬 Protein Language Models
+### 🧬 Protein Foundation Models
 
 | Model Name | HuggingFace Link | Input Type |
 |------------|------------------|-------------|
@@ -93,7 +103,7 @@ $ python generate_selfies.py
 | SaProt | [westlake-repl/SaProt_650M_AF2](https://huggingface.co/westlake-repl/SaProt_650M_AF2) | Structure-aware Sequence |
 | SaProt | [westlake-repl/SaProt_650M_PDB](https://huggingface.co/westlake-repl/SaProt_650M_PDB) | Structure-aware sequence |
 
-### 💊 Molecular Language Models
+### 💊 Molecular Foundation Models
 
 | Model Name | HuggingFace Link | Input Type |
 |------------|------------------|-------------|
@@ -114,7 +124,7 @@ Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work u
 @inproceedings{meng2024fusiondti,
 title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
 author={Zhaohan Meng, Zaiqiao Meng, Ke Yuan and Iadh Ounis},
-booktitle={EMNLP 2025},
+booktitle={Findings of EMNLP 2025},
 year={2025},
 url={https://arxiv.org/abs/2406.01651}
 }
