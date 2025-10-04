@@ -123,7 +123,7 @@ Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work u
 ```
 @inproceedings{meng2024fusiondti,
 title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
-author={Zhaohan Meng, Zaiqiao Meng, Ke Yuan and Iadh Ounis},
+author={Meng, Zhaohan and Meng, Zaiqiao and Yuan, Ke and Ounis, Iadh},
 booktitle={Findings of EMNLP 2025},
 year={2025},
 url={https://arxiv.org/abs/2406.01651}
