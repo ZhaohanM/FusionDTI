@@ -121,11 +121,18 @@ $ python generate_selfies.py
 
 Please cite our [paper](https://arxiv.org/abs/2406.01651) if you find our work useful in your own research.
 ```
-@inproceedings{meng2024fusiondti,
-title={Fusion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction},
-author={Meng, Zhaohan and Meng, Zaiqiao and Yuan, Ke and Ounis, Iadh},
-booktitle={Findings of EMNLP 2025},
-year={2025},
-url={https://arxiv.org/abs/2406.01651}
+@inproceedings{meng-etal-2025-fusiondti,
+    title = "{F}usion{DTI}: Fine-grained Binding Discovery with Token-level Fusion for Drug-Target Interaction",
+    author = "Meng, Zhaohan  and Meng, Zaiqiao  and Yuan, Ke  and Ounis, Iadh",
+    editor = "Christodoulopoulos, Christos  and Chakraborty, Tanmoy  and Rose, Carolyn  and Peng, Violet",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-emnlp.237/",
+    doi = "10.18653/v1/2025.findings-emnlp.237",
+    pages = "4425--4444",
+    ISBN = "979-8-89176-335-7",
 }
 ```
