@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FusionDTI</title>
+  <meta name="description" content="FusionDTI: Fine-grained Binding Discovery with Token-level Fusion for Drug–Target Interaction." />
+  <meta name="keywords" content="FusionDTI, Drug–Target Interaction, Token-level Fusion, BAN, CAN, SELFIES, SaProt, SELFormer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;600&family=Castoro:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./static/css/bulma.min.css" />
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+  <link rel="stylesheet" href="./static/css/index.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="./static/favicon.ico" />
+
+  <!-- Social (Open Graph / Twitter) -->
+  <meta property="og:title" content="FusionDTI" />
+  <meta property="og:description" content="Fine-grained Binding Discovery with Token-level Fusion for Drug–Target Interaction." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./images/Proposed_model.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js" defer></script>
+  <script src="./static/js/fontawesome.all.min.js" defer></script>
+  <script src="./static/js/bulma-carousel.min.js" defer></script>
+  <script src="./static/js/bulma-slider.min.js" defer></script>
+  <script src="./static/js/index.js" defer></script>
+
+  <!-- Minimal page-specific polish -->
+  <style>
+    :root {
+      --brand:#f68946;
+    }
+    body { font-family: "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; }
+    .hero { background: linear-gradient(180deg, rgba(246,137,70,0.07), rgba(246,137,70,0)); }
+    .publication-title { font-family: "Google Sans", sans-serif; }
+    .author-block a { text-decoration: none; }
+    .publication-links .button { transition: transform .05s ease-in-out; }
+    .publication-links .button:active { transform: translateY(1px); }
+    .dot-sep { margin: 0 .4rem; opacity:.6; }
+    .orange-caret { color: var(--brand); font-weight: normal; }
+    .has-text-justify { text-align: justify; }
+    .gradio-embed-wrapper iframe { min-height: 760px; }
+    .content pre { white-space: pre; overflow-x: auto; }
+    /* Better image presentation */
+    .figure-card {
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 12px;
+      padding: 12px;
+      background: white;
+      box-shadow: 0 6px 18px rgba(0,0,0,.04);
+    }
+  </style>
+</head>
+
+<body>
+<!-- ======================== HERO ======================== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">FusionDTI</h1>
+          <h2 class="title is-3">Fine-grained Binding Discovery with Token-level Fusion for Drug–Target Interaction</h2>
+
+          <!-- Authors -->
+          <div class="is-size-5" aria-label="Authors">
+            <span class="author-block">
+              <a href="https://ai4biomed.org/author/zhaohan-meng/" style="font-weight:normal;">Zhaohan&nbsp;Meng</a><span class="dot-sep">·</span>
+            </span>
+            <span class="author-block">
+              <a href="https://mengzaiqiao.github.io" style="font-weight:normal;">Zaiqiao&nbsp;Meng<sup>*</sup></a><span class="dot-sep">·</span>
+            </span>
+            <span class="author-block">
+              <a href="https://www.gla.ac.uk/schools/computing/staff/keyuan/" style="font-weight:normal;">Ke&nbsp;Yuan</a><span class="dot-sep">·</span>
+            </span>
+            <span class="author-block">
+              <a href="https://www.dcs.gla.ac.uk/~ounis/" style="font-weight:normal;">Iadh&nbsp;Ounis</a>
+            </span>
+          </div>
+
+          <!-- Affiliations -->
+          <div class="is-size-6 publication-authors" style="margin-top:.75rem" aria-label="Affiliations">
+            <span class="author-block">
+              <b class="orange-caret">&#x25B6;</b>
+              <a href="https://www.gla.ac.uk/schools/computing/" style="font-weight:normal;">School of Computing Science</a>, University of Glasgow
+            </span><br/>
+            <span class="author-block">
+              <b class="orange-caret">&#x25B6;</b>
+              <a href="https://www.gla.ac.uk/schools/cancersciences/" style="font-weight:normal;">School of Cancer Sciences</a>, University of Glasgow
+            </span><br/>
+            <span class="author-block">
+              <b class="orange-caret">&#x25B6;</b>
+              <a href="https://www.crukscotlandinstitute.ac.uk/" style="font-weight:normal;">Cancer Research UK Scotland Institute</a>, University of Glasgow, United Kingdom
+            </span>
+          </div>
+
+          <div class="is-size-6 publication-authors" style="margin-top:.35rem">
+            <span class="author-block" style="font-size: 90%;">* Corresponding author</span>
+          </div>
+
+          <!-- Links -->
+          <div class="publication-links" style="margin-top:1rem">
+            <span class="link-block">
+              <a href="https://arxiv.org/abs/2406.01651" target="_blank" rel="noopener" class="external-link button is-rounded is-dark">
+                <span class="icon"><i class="ai ai-arxiv"></i></span><span>Paper</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://github.com/ZhaohanM/FusionDTI" target="_blank" rel="noopener" class="external-link button is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+              </a>
+            </span>
+            <span class="link-block">
+              <a href="https://huggingface.co/spaces/Zhaohan-Meng/FusionDTI" target="_blank" rel="noopener" class="external-link button is-rounded is-dark">
+                <span class="icon"><i class="fa fa-play"></i></span><span>Demo</span>
+              </a>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ABSTRACT ======================== -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justify">
+          <p>
+            Predicting drug–target interactions (DTI) is critical to drug discovery. Although recent DTI systems integrate representations from diverse drug and protein encoders, they often fail to capture <em>fine-grained</em> binding—i.e., which specific drug atoms (or substructures) interact with key protein residues—knowledge that is essential for understanding binding mechanisms and optimising design.
+          </p>
+          <p>
+            We present <b>FusionDTI</b>, a token-level fusion approach that learns fine-grained drug–protein interactions. FusionDTI adopts SELFIES to ensure valid molecular sequences and employs a structure-aware (SA) vocabulary for proteins, enriching residue tokens with 3D-informed categories. Frozen, large-scale biomedical PLMs (e.g., SELFormer for ligands and SaProt for proteins) provide robust token embeddings, which are fused via either a Bilinear Attention Network (BAN) or a Cross-Attention Network (CAN) to yield interaction-sensitive features. Across three standard benchmarks, FusionDTI consistently outperforms seven state-of-the-art baselines. A case study further shows that FusionDTI highlights plausible binding sites, improving explainability of the DTI predictions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== DEMO ======================== -->
+<section class="section" id="OnlineDemo" aria-label="Online Demo">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">FusionDTI Demo</h2>
+    <div class="content has-text-centered">
+      <p>Explore atom–residue interactions with our token-level fusion model.</p>
+      <div class="gradio-embed-wrapper" style="max-width: 100%; margin: auto;">
+        <iframe
+          src="https://Zhaohan-Meng-FusionDTI.hf.space"
+          title="FusionDTI Gradio Demo"
+          loading="lazy"
+          frameborder="0"
+          width="100%"
+          style="border-radius: 12px; margin-top: 1rem; height: 1000px;">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== OVERALL FRAMEWORK ======================== -->
+<section class="section" id="framework">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Overall Framework</h2>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content has-text-justify">
+          <p><b>Input.</b> Drugs and proteins are provided as sequences. Proteins use an SA vocabulary (441 categories) that associates each residue with a 3D-informed class, supplementing amino-acid sequences with structural cues. Drugs use <b>SELFIES</b>, a robust syntax that always yields valid molecular graphs. Steps to obtain SA and SELFIES are provided in the code repository.</p>
+          <p><b>Encoders.</b> FusionDTI uses frozen encoders—<b>SELFormer</b> (ligands) and <b>SaProt</b> (proteins)—to produce token embeddings. Encoders can be swapped for alternative PLMs if desired.</p>
+          <p><b>Fusion module.</b> We study two choices: <b>BAN</b> and <b>CAN</b>. CAN computes cross-attention between ligand and protein tokens and concatenates the attended features into a fused representation <em>F</em>. BAN constructs a bilinear attention map and applies bilinear pooling to obtain <em>F</em>.</p>
+          <p><b>Prediction head.</b> A multilayer perceptron yields the interaction probability <em>p</em>, trained using binary cross-entropy.</p>
+          <div class="figure-card">
+            <img src="images/Proposed_model.png" alt="FusionDTI overall framework diagram" style="width:100%; height:auto;" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== FUSION MODULE ======================== -->
+<section class="section" id="fusion">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Fusion Module</h2>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="content has-text-justify">
+          <p>
+            To capture token-level binding between drugs and proteins, FusionDTI fuses token embeddings with either a <b>Bilinear Attention Network</b> or a <b>Cross-Attention Network</b>. Both produce interaction-aware features while preserving fine-grained correspondences useful for downstream explanation.
+          </p>
+          <div class="figure-card">
+            <img src="images/Fusion_Module.png" alt="BAN and CAN fusion modules" style="width:100%; height:auto;" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== RESULTS ======================== -->
+<section class="section" id="results">
+  <div class="container is-max-widescreen">
+    <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <h3 class="subtitle is-4 has-text-centered">In-Domain</h3>
+        <div class="figure-card">
+          <img src="images/In_domain.jpg" alt="In-domain performance of FusionDTI versus baselines" style="width:100%; height:auto;" />
+        </div>
+      </div>
+      <div class="column is-half">
+        <h3 class="subtitle is-4 has-text-centered">Cross-Domain</h3>
+        <div class="figure-card">
+          <img src="images/cross_domain.jpg" alt="Cross-domain performance of FusionDTI versus baselines" style="width:100%; height:auto;" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== BIBTEX ======================== -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@inproceedings{meng2024fusiondti,
+  title     = {FusionDTI: Fine-grained Binding Discovery with Token-level Fusion for Drug–Target Interaction},
+  author    = {Meng, Zhaohan and Meng, Zaiqiao and Yuan, Ke and Ounis, Iadh},
+  booktitle = {Findings of EMNLP 2025},
+  year      = {2025},
+  url       = {https://arxiv.org/abs/2406.01651}
+}</code></pre>
+  </div>
+</section>
+
+<!-- ======================== ACKNOWLEDGEMENT ======================== -->
+<section class="section" id="Acknowledgement">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">Acknowledgement</h2>
+    <p>
+      This website template is adapted from the <a href="https://minigpt-4.github.io/">MiniGPT-4</a> project, which is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, and is licensed under a
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+    </p>
+  </div>
+</section>
+
+<!-- Scripts (placed at end for faster paint) -->
+<script src="js/underscore-min.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
