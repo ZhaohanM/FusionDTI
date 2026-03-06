@@ -10,7 +10,7 @@
 
 ## 🔥 Latest News
 
-- An extension for **explainable prediction of drug-target interaction types**, along with the model and dataset, will be released soon!
+- 🔬 Our related work **ExplainBind** introduces an interaction-aware framework that explicitly models different types of **physicochemical non-covalent interactions** (e.g., hydrogen bonding, hydrophobic interactions and van der Waals forces) to provide mechanistically explainable protein–ligand binding predictions. The preprint is now available on [bioRxiv](https://doi.org/10.64898/2026.03.03.707476).
 - **August 2025**: FusionDTI has been **accepted to EMNLP 2025** 🎉
 
 ## 🚀 Introduction
